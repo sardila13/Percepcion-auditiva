@@ -1,13 +1,32 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Content
-    </ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Content</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <p>
-    This is a perfect starting point for a page with primarily text content. The body is padded nicely and ready for prose.
-  </p>
+	<button ion-button class="opciones" margin-vertical (click)="descripcionDeSonidos()">Descripción <br>de sonidos</button>
+	<button ion-button class="opciones" margin-vertical (click)="categorias()">Categorias</button>
+	<button ion-button class="opciones" margin-vertical (click)="identificacionDeLaCategoria()">Identificacion De<br> La Categoria</button>
+	<button ion-button class="opciones" margin-vertical (click)="memoriaDeSonidos()">Memoria <br>De Sonidos</button>
+	<button ion-button class="opciones" margin-vertical (click)="memoriaDeSonidosEnSecuencia()">Memoria De <br>Sonidos<br> En Secuencia</button>
+	<button ion-button class="opciones" margin-vertical (click)="identificacionDeContextosOSituaciones()">Identificacion De <br>Contextos <br>O Situaciones</button>
+	<button ion-button class="opciones" margin-vertical (click)="figuraFondo()">Figura Fondo</button>
+	
+	<!-- <div>
+		<ion-segment [(ngModel)]="dificultad" margin-top class="segmento">
+			<ion-segment-button value="facil">
+				<p class="segmento-boton">Fácil</p>
+			</ion-segment-button>
+			<ion-segment-button value="intermedio">
+				<p>Intermedio</p>
+			</ion-segment-button>
+			<ion-segment-button value="dificil">
+				<p>Difícil</p>
+			</ion-segment-button>			
+		</ion-segment>
+	</div> -->
 </ion-content>

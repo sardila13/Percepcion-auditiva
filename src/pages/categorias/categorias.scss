@@ -1,0 +1,26 @@
+page-categorias {
+	.imagenes {
+		width: 100%;
+		background-color: white;
+	}
+	.imagenesDif {
+		width: 31%;
+		background-color: white;
+		margin-left: 13%;
+		margin-top: 2%;
+	}
+	.imagenesFa {
+		width: 38%;
+		background-color: white;
+		margin-top: 5%;
+		margin-left : 7%;	
+	}
+	.center {
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+	}
+	.circle{
+		border-radius: 50%;
+	}
+}

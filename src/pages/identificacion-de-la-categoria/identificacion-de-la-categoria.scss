@@ -1,0 +1,33 @@
+page-identificacion-de-la-categoria {
+	.imagenes {
+		width: 100%;
+		background-color: white;
+	}
+	.imagenesDif {
+		width: 40%;
+		background-color: white;
+		margin-left: 6%;
+		margin-top: 5%;
+	}
+	.imagenesFa {
+		width: 60%;
+		background-color: white;
+		margin-top: 5%;
+		margin-left : 20%;	
+	}
+	.center {
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+	}
+	.circle {
+		border-radius: 50%;
+	}
+
+	.imagenesIntermedio{
+		width: 40%;
+		background-color: white;
+		margin-top: 10%;
+		margin-left : 6%;		
+	}
+}

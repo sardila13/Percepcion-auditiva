@@ -1,0 +1,42 @@
+<!--
+  Generated template for the IdentificacionDeLaCategoriaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Identificacion De La Categoria</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+	<div>
+		<ion-segment [(ngModel)]="dificultad" class="segmento">
+			<ion-segment-button value="facil" (click)="cambioDificultad()">
+				<p class="segmento-boton">Inicial</p>
+			</ion-segment-button>
+			<ion-segment-button value="intermedio" (click)="cambioDificultad()">
+				<p>Intermedio</p>
+			</ion-segment-button>
+			<ion-segment-button value="dificil" (click)="cambioDificultad()">
+				<p>Avanzado</p>
+			</ion-segment-button>			
+		</ion-segment>
+	</div>
+	<div [ngSwitch]="dificultad">
+		<button id="btn0" [ngClass]="imgClass"><img id="img0" (click)="seleccionarImagen(0)" src="{{'assets/img/Testa/' + imagenes[0] + '.jpg'}}"></button>
+		<button id="btn1" [ngClass]="imgClass"><img id="img1" (click)="seleccionarImagen(1)" src="{{'assets/img/Testa/' + imagenes[1] + '.jpg'}}"></button>
+		<button id="btn2" [ngClass]="imgClass"><img id="img2" (click)="seleccionarImagen(2)" [hidden]="ocultar[0]" src="{{'assets/img/Testa/' + imagenes[2] + '.jpg'}}"></button>
+		<button id="btn3" [ngClass]="imgClass"><img id="img3" (click)="seleccionarImagen(3)" [hidden]="ocultar[1]" src="{{'assets/img/Testa/' + imagenes[3] + '.jpg'}}"></button>
+		<button id="btn4" [ngClass]="imgClass"><img id="img4" (click)="seleccionarImagen(4)" [hidden]="ocultar[2]" src="{{'assets/img/Testa/' + imagenes[4] + '.jpg'}}"></button>
+		<button id="btn5" [ngClass]="imgClass"><img id="img5" (click)="seleccionarImagen(5)" [hidden]="ocultar[3]" src="{{'assets/img/Testa/' + imagenes[5] + '.jpg'}}"></button>
+	</div>
+	<button class="center" ion-button round icon-left>
+		<div style="margin-top:5%; margin-bottom:5%">
+			<ion-icon name="volume-up" style="margin-right: 5%"></ion-icon>Reproducir sonido
+		</div>
+	</button>
+</ion-content>

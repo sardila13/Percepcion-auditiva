@@ -10,4 +10,27 @@ export class ContentPage {
 
   constructor(public navCtrl: NavController) { }
 
+  descripcionDeSonidos(){
+  	this.navCtrl.push('DescripcionDeSonidosPage');
+  }
+
+  categorias(){
+  	this.navCtrl.push('CategoriasPage');
+  }
+  identificacionDeLaCategoria(){
+  	this.navCtrl.push('IdentificacionDeLaCategoriaPage');
+  }
+  memoriaDeSonidos(){
+  	this.navCtrl.push('MemoriaDeSonidosPage');
+  }
+  memoriaDeSonidosEnSecuencia(){
+  	this.navCtrl.push('MemoriaDeSonidosEnSecuenciaPage');
+  }
+  identificacionDeContextosOSituaciones(){
+  	this.navCtrl.push('IdentificacionDeContextosOSituacionesPage');
+  }
+  figuraFondo(){
+  	this.navCtrl.push('FiguraFondoPage');
+  }
+
 }
