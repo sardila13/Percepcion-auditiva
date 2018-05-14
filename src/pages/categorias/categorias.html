@@ -14,5 +14,70 @@
 
 
 <ion-content padding>
+	<div class="dificultades">
+		<ion-segment [(ngModel)]="dificultad" class="segmento">
+			<ion-segment-button value="facil" (click)="changeDifficulty()">
+				<p class="segmento-boton">Inicial</p>
+			</ion-segment-button>
+			<ion-segment-button value="intermedio" (click)="changeDifficulty()">
+				<p>Intermedio</p>
+			</ion-segment-button>
+			<ion-segment-button value="dificil" (click)="changeDifficulty()">
+				<p>Avanzado</p>
+			</ion-segment-button>			
+		</ion-segment>
+	</div>
+	<ion-item>
+		<ion-label>Categoria</ion-label>
+			<ion-select [(ngModel)]="category" (ionChange)="changeCategory()">
+		    	<ion-option value="{{categories[0]}}">{{categories[0]}}</ion-option>
+		    	<ion-option value="{{categories[1]}}">{{categories[1]}}</ion-option>
+		    	<ion-option value="{{categories[2]}}">{{categories[2]}}</ion-option>
+		    	<ion-option value="{{categories[3]}}">{{categories[3]}}</ion-option>
+		    	<ion-option value="{{categories[4]}}">{{categories[4]}}</ion-option>
+		    	<ion-option value="{{categories[5]}}">{{categories[5]}}</ion-option>
+			</ion-select>
+	</ion-item>
+	<div>
+		<button id="btn0"><img id="img0" (click)="selectImage(0)" src="{{'assets/img/Testa/' + images[0]}}"></button>
+		<button id="btn1"><img id="img1" (click)="selectImage(1)" src="{{'assets/img/Testa/' + images[1]}}"></button>
+		<button id="btn2"><img id="img2" (click)="selectImage(2)" src="{{'assets/img/Testa/' + images[1]}}"></button>
+		<button id="btn3" [hidden]="hide[0]" ><img id="img3" (click)="selectImage(3)" src="{{'assets/img/Testa/' + images[2]}}"></button>
+		<button id="btn4" [hidden]="hide[1]" ><img id="img4" (click)="selectImage(4)" src="{{'assets/img/Testa/' + images[3]}}"></button>
+		<button id="btn5" [hidden]="hide[2]" ><img id="img5" (click)="selectImage(5)" src="{{'assets/img/Testa/' + images[4]}}"></button>
+		<button id="btn6" [hidden]="hide[3]" ><img id="img6" (click)="selectImage(6)" src="{{'assets/img/Testa/' + images[5]}}"></button>
+		<button id="btn7" [hidden]="hide[4]" ><img id="img7" (click)="selectImage(7)" src="{{'assets/img/Testa/' + images[5]}}"></button>
+		<button class="center" ion-button round icon-left (click)="playSound()">
+			<div style="margin-top:5%; margin-bottom:5%">
+				<ion-icon name="volume-up" style="margin-right: 5%"></ion-icon>Reproducir sonido
+			</div>
+		</button>
+	</div>
+	<!--<ion-fab top right edge>
+	    <button ion-fab round color="light" text="Dificultad" (click)="hideEverything()"><ion-icon name="arrow-dropdown"></ion-icon></button>
+	    <ion-fab-list>
+      <button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[0]}}</ion-label>
+      </button>
+      <button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[1]}}</ion-label>
+      </button><button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[2]}}</ion-label>
+      </button><button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[3]}}</ion-label>
+      </button><button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[4]}}</ion-label>
+      </button><button ion-fab>
+      	<ion-icon name="logo-facebook"></ion-icon>
+      	<ion-label>{{categories[5]}}</ion-label>
+      </button>
+    </ion-fab-list>
+	</ion-fab> -->
+
 
 </ion-content>

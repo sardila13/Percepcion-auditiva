@@ -10,4 +10,7 @@ import { MemoriaDeSonidosPage } from './memoria-de-sonidos';
     IonicPageModule.forChild(MemoriaDeSonidosPage),
   ],
 })
-export class MemoriaDeSonidosPageModule {}
+export class MemoriaDeSonidosPageModule {
+	images: Array<String>;
+
+}
