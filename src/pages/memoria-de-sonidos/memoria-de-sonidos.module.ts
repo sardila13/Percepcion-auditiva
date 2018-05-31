@@ -11,6 +11,5 @@ import { MemoriaDeSonidosPage } from './memoria-de-sonidos';
   ],
 })
 export class MemoriaDeSonidosPageModule {
-	images: Array<String>;
 
 }

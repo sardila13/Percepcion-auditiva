@@ -10,10 +10,6 @@ export class ContentPage {
 
   constructor(public navCtrl: NavController) { }
 
-  descripcionDeSonidos(){
-  	this.navCtrl.push('DescripcionDeSonidosPage');
-  }
-
   categorias(){
   	this.navCtrl.push('CategoriasPage');
   }
