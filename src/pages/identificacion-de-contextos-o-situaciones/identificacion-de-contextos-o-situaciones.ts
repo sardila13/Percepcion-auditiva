@@ -144,11 +144,11 @@ export class IdentificacionDeContextosOSituacionesPage {
     for( var h = 0; h < rango; h++){
       if(h == winnerPosition){
         var path = category + "/" + functionRandom(5);
-        imageToAdd = path + ".png";
+        imageToAdd = path + ".jpg";
         winnerSound = path + ".wav";
       }
       else{
-        imageToAdd = category + "/" + functionRandom(7) + ".png";
+        imageToAdd = category + "/" + functionRandom(7) + ".jpg";
         if(images.indexOf(imageToAdd) > -1) h--;
         	
       }

@@ -156,13 +156,13 @@ export class FiguraFondoPage {
   		var category = categories[categoria];
   		var image = functionRandomNumber(7)
   		var path = category + "/" + image;
-  		if(images.indexOf(path + ".png")>-1) j--;
+  		if(images.indexOf(path + ".jpg")>-1) j--;
   		else{
 	  		if(winnersPositions.indexOf(j)> -1){
 	  			sounds.push(path + ".mp3");
 	  		}
-	  		if(j >= images.length) images.push(path + ".png");
-	  		else images[j] = path + ".png";
+	  		if(j >= images.length) images.push(path + ".jpg");
+	  		else images[j] = path + ".jpg";
   		}
   		
   	}

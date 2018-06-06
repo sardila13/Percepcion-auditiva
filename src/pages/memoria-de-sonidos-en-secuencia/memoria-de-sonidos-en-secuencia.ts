@@ -88,7 +88,8 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   selectImage(id:number){
   	var indexOfPosition = this.winner.indexOf(id);
   	if(indexOfPosition > -1){
-      var path = this.images[id].split(".png")[0] + ".mp3";
+      var path = this.images[id].split(".jpg
+      	")[0] + ".mp3";
       
       this.sounds.splice(this.sounds.indexOf(path),1);
   		this.winner.splice(indexOfPosition,1);
@@ -176,14 +177,17 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     var positionSound = 0;
   	for(var x = 0; x <= rango; x++){
       var path = category + "/" + functionRandomNumber(7);
-      var image = path + ".png";
+      var image = path + ".jpg
+      ";
       if(images.indexOf(image) > -1) x--;
       else{
         if(winnerPositions.indexOf(x)>-1){
           winnerSounds[positionSound++] = path + ".mp3";
         }
-        if(x >= images.length) images.push(path + ".png");
-          else images[x] = path + ".png";
+        if(x >= images.length) images.push(path + ".jpg
+        	");
+          else images[x] = path + ".jpg
+          	";
 
       }
     }

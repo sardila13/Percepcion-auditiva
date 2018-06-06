@@ -87,7 +87,7 @@ export class IdentificacionDeLaCategoriaPage {
   /*setImages(rango: number, categories: Array<String>){
   	var image = "";
   	for(var m = 0; m <= rango; m++){
-  		image = categories[m] + "/" + this.randomNumber(7) + ".png";
+  		image = categories[m] + "/" + this.randomNumber(7) + ".jpg";
   		if(this.images.indexOf(image) > -1) m--;	
   		else if(this.images.length > m) this.images[m] = image;
   		else this.images.push(image);
@@ -171,12 +171,12 @@ export class IdentificacionDeLaCategoriaPage {
     for( var h = 0; h <= rango; h++){
       if(h == winnerPosition){
         var path = categories[winnerCategory] + "/" + functionRandom(5);
-        imageToAdd = path + ".png";
+        imageToAdd = path + ".jpg";
         winnerSound = path + ".mp3";
       }
       else{
         category = functionRandom(5);
-        imageToAdd = categories[category] + "/" + functionRandom(7) + ".png";
+        imageToAdd = categories[category] + "/" + functionRandom(7) + ".jpg";
         if(category === winnerCategory || images.indexOf(imageToAdd) > -1) h--;
 
       }

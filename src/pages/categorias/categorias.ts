@@ -159,12 +159,12 @@ export class CategoriasPage {
   	var winnerSound;
   	for(var i = 0; i <= rango; i++){
   		var path = category + "/" + functionRandom(7);
-  		var image = path + ".png";
+  		var image = path + ".jpg";
   		if(images.indexOf(image) > -1) i--;
   		else {
 	  		if(i === winnerPosition) winnerSound = path + ".mp3"
-	  		if(i >= images.length) images.push(path + ".png");
-	  		else images[i] = path + ".png";
+	  		if(i >= images.length) images.push(path + ".jpg");
+	  		else images[i] = path + ".jpg";
   		}
   	}
   	return winnerSound;
