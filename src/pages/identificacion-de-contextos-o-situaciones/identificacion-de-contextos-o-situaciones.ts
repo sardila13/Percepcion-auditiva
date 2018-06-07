@@ -140,7 +140,6 @@ export class IdentificacionDeContextosOSituacionesPage {
   setImages(winnerPosition: number, category: number, rango: number, functionRandom, images:Array<string>){
     var imageToAdd : string;
     var winnerSound;
-    console.log("Rango " + rango);
     for( var h = 0; h < rango; h++){
       if(h == winnerPosition){
         var path = category + "/" + functionRandom(5);
@@ -149,13 +148,15 @@ export class IdentificacionDeContextosOSituacionesPage {
       }
       else{
         imageToAdd = category + "/" + functionRandom(7) + ".jpg";
-        if(images.indexOf(imageToAdd) > -1) h--;
+        
         	
       }
       if(h >= images.length) images.push(imageToAdd);
      		else images[h] = imageToAdd;
+      if(images.indexOf(imageToAdd) > -1) h--;
     }
     console.log(images);
+    console.log(winnerSound);
     return winnerSound;
   }
 }

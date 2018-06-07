@@ -33,6 +33,8 @@ export class IdentificacionDeLaCategoriaPage {
 
   buttons: Array<HTMLElement> = [];
 
+  rango: number;
+
   //Functional methods
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -66,6 +68,8 @@ export class IdentificacionDeLaCategoriaPage {
   selectImage(id:number){	
   	if(this.winner === id){
   		console.log("Ganaste");
+      window.alert("Ganaste");
+      this.selectWinnerCategory(this.rango, this.setImages);
   	}
   	else{
   		console.log("Perdiste");
@@ -123,6 +127,7 @@ export class IdentificacionDeLaCategoriaPage {
   		rango = 5;
   		clase = "imagenesDif";
   	}
+    this.rango = rango;
 
   	/*this.selectWinnerCategory(rango, this.setArrayCategory, this.selectWinnerPosition);*/
   	this.setClassImages(clase);

@@ -130,6 +130,8 @@ export class CategoriasPage {
   selectImage(id:number){	
   	if(this.winner === id){
   		console.log("Ganaste");
+      window.alert("Ganaste");
+      this.selectWinner(this.rango, this.setImages);
   	}
   	else{
   		console.log("Perdiste");
