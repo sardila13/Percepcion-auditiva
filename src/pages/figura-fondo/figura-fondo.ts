@@ -117,17 +117,19 @@ export class FiguraFondoPage {
   }
 
   selectImage(id:number){	
-    console.log("ID " + id)
   	if(this.winner.indexOf (id)>-1){
-  		console.log("encontraste uno");
-  		this.winner.splice(this.winner.indexOf (id),1);
-      console.log(this.winner.length);
+      if(this.winner.length == 1){
+        window.alert("Ganaste");
+        this.selectWinner(this.rango, this.setImages);
+      }
+      else{
+    		console.log("encontraste uno");
+    		this.winner.splice(this.winner.indexOf (id),1);
+      }
   	}
   	else{
   		console.log("Fallaste");
   	}
-    console.log(this.winner);
-    if(this.winner.length == 0) window.alert("Ganaste");
   }
 
   selectWinnerPosition(rango: number){
@@ -154,6 +156,7 @@ export class FiguraFondoPage {
   }
 
   setImages(winnersPositions:Array<number>, functionRandomNumber, rango:number, images:Array<String>, categories:Array<String>){
+    console.log("Set images");
   	var sounds: Array<String> = [];
   	for(var j = 0; j < rango; j++){
   		var categoria = functionRandomNumber(5);
