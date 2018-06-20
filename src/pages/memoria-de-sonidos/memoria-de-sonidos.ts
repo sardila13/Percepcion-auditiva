@@ -95,11 +95,16 @@ export class MemoriaDeSonidosPage {
       this.sounds.splice(this.sounds.indexOf(path),1);
   		this.winner.splice(indexOfPosition,1);
 
-  		if(this.winner.length === 0)console.log("Ganaste");
+  		if(this.winner.length === 0){
+        console.log("Ganaste");
+        window.alert("Ganaste");
+        this.setImagesAndPositions(this.rango);
+      }
       else console.log("Sacaste uno");
   	}
   	else{
   		console.log("Fallaste");
+      window.alert("intentalo de nuevo");
   	}
   }
 
@@ -133,7 +138,6 @@ export class MemoriaDeSonidosPage {
 
   playSound(){
     console.log("Play sound");
-    console.log(this.sounds);
     this.index -1;
     this.playArraySounds();
   }
@@ -154,7 +158,6 @@ export class MemoriaDeSonidosPage {
 
   playSoundParam(sounds: Array<String>){
     console.log("Play sound");
-    console.log(this.sounds);
     this.index -1;
     this.playArraySoundsParam(sounds);
   }
@@ -180,6 +183,8 @@ export class MemoriaDeSonidosPage {
 
   setImages(winnerPositions: Array<number>, functionRandomNumber, rango: number, images: Array<String>, category: String, winnerSounds: Array<String>){
     var positionSound = 0;
+    images.splice(0, images.length);
+    winnerSounds.splice(0, winnerSounds.length);
   	for(var x = 0; x <= rango; x++){
       var path = category + "/" + functionRandomNumber(7);
       var image = path + ".jpg";
@@ -193,6 +198,7 @@ export class MemoriaDeSonidosPage {
 
       }
     }
+    console.log(winnerSounds);
     return winnerSounds;
   }
 

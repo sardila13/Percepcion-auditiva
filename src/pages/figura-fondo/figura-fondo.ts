@@ -129,6 +129,7 @@ export class FiguraFondoPage {
   	}
   	else{
   		console.log("Fallaste");
+      window.alert("intentalo de nuevo");
   	}
   }
 

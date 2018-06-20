@@ -73,6 +73,7 @@ export class IdentificacionDeLaCategoriaPage {
   	}
   	else{
   		console.log("Perdiste");
+      window.alert("intentalo de nuevo");
   	}
   }
 

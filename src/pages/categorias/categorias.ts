@@ -135,6 +135,7 @@ export class CategoriasPage {
   	}
   	else{
   		console.log("Perdiste");
+      window.alert("intentalo de nuevo");
   	}
   }
 

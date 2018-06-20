@@ -61,6 +61,7 @@ export class IdentificacionDeContextosOSituacionesPage {
   	}
   	else{
   		console.log("Perdiste");
+      window.alert("intentalo de nuevo");
   	}
   }
 
