@@ -29,12 +29,14 @@ export class IdentificacionDeContextosOSituacionesPage {
 
 	category: String = "situaciones";
 
+  rango: number;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
   	for(var j = 0; j < 5; j++){
     	this.hide[j] = true;
     }
-
+    this.rango = 3;
     this.selectWinnerCategory(3, this.setImages);
   }
 
@@ -54,6 +56,8 @@ export class IdentificacionDeContextosOSituacionesPage {
   selectImage(id:number){	
   	if(this.winner === id){
   		console.log("Ganaste");
+      window.alert("Ganaste");
+      this.selectWinnerCategory(this.rango, this.setImages);
   	}
   	else{
   		console.log("Perdiste");
@@ -97,10 +101,11 @@ export class IdentificacionDeContextosOSituacionesPage {
   		clase = "imagenesIntermedio";
   	}
   	else if(this.dificultad ==="dificil"){
+      console.log("Entra dificil");
   		rango = 8;
   		clase = "imagenesDif";
   	}
-
+    this.rango = rango;
   	/*this.selectWinnerCategory(rango, this.setArrayCategory, this.selectWinnerPosition);*/
   	this.setClassImages(clase);
   	this.selectWinnerCategory(rango, this.setImages);
@@ -120,10 +125,11 @@ export class IdentificacionDeContextosOSituacionesPage {
   	if(this.dificultad === "dificil"){
   		for(var ka = 0; ka < 5; ka++) this.hide[ka] = false;
   	}
+    console.log(this.hide[4])
   }
 
   selectWinnerPosition(rango: number){
-  	var winnerPosition = this.randomNumber(rango);
+  	var winnerPosition = this.randomNumber(rango-1);
   	this.winner = winnerPosition;
     return winnerPosition;
   }
@@ -139,24 +145,24 @@ export class IdentificacionDeContextosOSituacionesPage {
 
   setImages(winnerPosition: number, category: number, rango: number, functionRandom, images:Array<string>){
     var imageToAdd : string;
+    var numbers = ["0","1","2","3","4","5","6","7"];
+
     var winnerSound;
-    for( var h = 0; h < rango; h++){
-      if(h == winnerPosition){
-        var path = category + "/" + functionRandom(5);
-        imageToAdd = path + ".jpg";
-        winnerSound = path + ".wav";
-      }
-      else{
-        imageToAdd = category + "/" + functionRandom(7) + ".jpg";
-        
-        	
-      }
+    for(var h = 0; h < rango; h++){
+      var position = functionRandom(numbers.length-1);
+      var value = numbers[position];
+      numbers.splice(position,1);
+      var path = category + "/" + value;
+      imageToAdd = path + ".jpg";
+      console.log(images + " " + path);
+      console.log(numbers);
+      
+      if(h == winnerPosition) winnerSound = path + ".mp3";
       if(h >= images.length) images.push(imageToAdd);
-     		else images[h] = imageToAdd;
-      if(images.indexOf(imageToAdd) > -1) h--;
+      else images[h] = imageToAdd;
+      
+      
     }
-    console.log(images);
-    console.log(winnerSound);
     return winnerSound;
   }
 }

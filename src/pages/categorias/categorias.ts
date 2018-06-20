@@ -112,7 +112,7 @@ export class CategoriasPage {
   		rango = 7;
   		clase = "imagenesDif";
   	}
-  	this.rango = rango
+  	this.rango = rango;
   	this.setClassImages(clase);
   	this.selectWinner(rango, this.setImages);
   }
@@ -146,6 +146,7 @@ export class CategoriasPage {
 
   selectWinner(rango:number,functionSetImages){
   	var winnerPosition = this.selectWinnerPosition(rango);
+    console.log("winner position " + winnerPosition);
   	var winnerSound = functionSetImages(rango, winnerPosition, this.randomNumber, this.category, this.images, this.playSoundParam);
   	this.setSound(winnerSound);
   }
@@ -159,7 +160,11 @@ export class CategoriasPage {
 
   setImages(rango: number, winnerPosition: number, functionRandom, category: String, images:Array<String>, functionPlaySoundParam){
   	var winnerSound;
+    images.splice(0,images.length);
+    console.log(images);
+
   	for(var i = 0; i <= rango; i++){
+      console.log(i);
   		var path = category + "/" + functionRandom(7);
   		var image = path + ".jpg";
   		if(images.indexOf(image) > -1) i--;
@@ -169,6 +174,7 @@ export class CategoriasPage {
 	  		else images[i] = path + ".jpg";
   		}
   	}
+    console.log(images);
   	return winnerSound;
   }
 
