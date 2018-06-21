@@ -16,6 +16,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 export class MemoriaDeSonidosPage {
 
+  currentSounds : Array<HTMLAudioElement> = [];
+
 	images: Array<String> = [];
 
 	sounds:Array<string> = [];
@@ -92,15 +94,18 @@ export class MemoriaDeSonidosPage {
   	if(indexOfPosition > -1){
       var path = this.images[id].split(".jpg")[0] + ".mp3";
       
-      this.sounds.splice(this.sounds.indexOf(path),1);
   		this.winner.splice(indexOfPosition,1);
 
   		if(this.winner.length === 0){
+        this.pauseSounds();
         console.log("Ganaste");
         window.alert("Ganaste");
-        this.setImagesAndPositions(this.rango);
+        this.setImagesAndPositions(this.rango);        
       }
-      else console.log("Sacaste uno");
+      else {
+        console.log("Sacaste uno");
+        window.alert("Encontraste uno");
+      }
   	}
   	else{
   		console.log("Fallaste");
@@ -109,6 +114,8 @@ export class MemoriaDeSonidosPage {
   }
 
   changeDifficulty(){
+
+    this.pauseSounds();
 
   	this.hideImagenes();
     this.sounds = [];
@@ -127,6 +134,7 @@ export class MemoriaDeSonidosPage {
   		rango = 7;
   		clase = "imagenesDif";
   	}
+    this.rango = rango;
   	this.setClassImages(clase);
     this.setImagesAndPositions(rango);
   }
@@ -137,16 +145,22 @@ export class MemoriaDeSonidosPage {
 
 
   playSound(){
-    console.log("Play sound");
-    this.index -1;
+    this.index = -1;
     this.playArraySounds();
   }
 
+  pauseSounds(){
+    for(var xy = 0; xy < this.currentSounds.length; xy++){
+      if(this.currentSounds[xy]!== undefined) this.currentSounds[xy].pause();
+    }
+  }
+
   playArraySounds(){
-    this.index++;;
+    this.index++;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + this.sounds[this.index]);
-    audio.addEventListener('ended', ()=> this.playArraySounds);
+    this.currentSounds[this.index] = audio;
+    audio.addEventListener('ended', ()=> this.playArraySounds());
     audio.play();
   }
 
@@ -157,16 +171,16 @@ export class MemoriaDeSonidosPage {
   }
 
   playSoundParam(sounds: Array<String>){
-    console.log("Play sound");
-    this.index -1;
+    this.index = -1;
     this.playArraySoundsParam(sounds);
   }
 
   playArraySoundsParam(arraySounds: Array<String>){
-    this.index++;;
+    this.index++;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
-    audio.addEventListener('ended', ()=> this.playArraySounds);
+    this.currentSounds[this.index] = audio;
+    audio.addEventListener('ended', ()=> this.playArraySoundsParam(arraySounds));
     audio.play();
   }
 

@@ -18,6 +18,8 @@ export class IdentificacionDeLaCategoriaPage {
 
 //SetUp methods en variables
 
+  currentAudio = new Audio();
+
   dificultad : String = "facil";
 
   images : Array<String> = [];
@@ -48,7 +50,7 @@ export class IdentificacionDeLaCategoriaPage {
     for(var j = 0; j < 4; j++){
     	this.hide[j] = true;
     }
-
+    this.rango = 1;
     this.selectWinnerCategory(1, this.setImages);
 
   }
@@ -67,6 +69,7 @@ export class IdentificacionDeLaCategoriaPage {
 
   selectImage(id:number){	
   	if(this.winner === id){
+      this.currentAudio.pause();
   		console.log("Ganaste");
       window.alert("Ganaste");
       this.selectWinnerCategory(this.rango, this.setImages);
@@ -102,15 +105,19 @@ export class IdentificacionDeLaCategoriaPage {
 
   playSound(){
     var sound = new Audio("assets/sounds/" + this.winnerSound);
+    this.currentAudio = sound;
     sound.play();
   }
 
   playSoundParam(soundPath:String){
     var sound = new Audio("assets/sounds/" + soundPath);
+    this.currentAudio = sound;
     sound.play();
   }
 
   changeDifficulty() {
+
+    this.currentAudio.pause();
 
   	this.hideImagenes();
 

@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class IdentificacionDeContextosOSituacionesPage {
 
+  currentSound = new Audio;
+
 	images: Array<String> = [];
 
 	hide: Array<boolean> = [];
@@ -40,6 +42,12 @@ export class IdentificacionDeContextosOSituacionesPage {
     this.selectWinnerCategory(3, this.setImages);
   }
 
+  ionViewDidLeave(){
+    console.log("Entro");
+    console.log(this.currentSound);
+    this.currentSound.pause();
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad IdentificacionDeContextosOSituacionesPage');
     this.buttons = [];
@@ -55,6 +63,7 @@ export class IdentificacionDeContextosOSituacionesPage {
 
   selectImage(id:number){	
   	if(this.winner === id){
+      this.currentSound . pause();
   		console.log("Ganaste");
       window.alert("Ganaste");
       this.selectWinnerCategory(this.rango, this.setImages);
@@ -80,14 +89,18 @@ export class IdentificacionDeContextosOSituacionesPage {
   playSound(){
     var sound = new Audio("assets/sounds/" + this.winnerSound);
     sound.play();
+    return sound;
   }
 
   playSoundParam(soundPath:String){
     var sound = new Audio("assets/sounds/" + soundPath);
     sound.play();
+    return sound;
   }
 
   changeDifficulty() {
+
+    this.currentSound.pause();
 
   	this.hideImagenes();
 
@@ -141,7 +154,7 @@ export class IdentificacionDeContextosOSituacionesPage {
     //console.log("Winner position " + winnerPosition);
   	var winnerSound = functionSetImages(winnerPosition, this.category, rango, this.randomNumber, this.images);
     this.winnerSound = winnerSound;
-    this.playSoundParam(winnerSound);
+    this.currentSound = this.playSoundParam(winnerSound);
   }
 
   setImages(winnerPosition: number, category: number, rango: number, functionRandom, images:Array<string>){

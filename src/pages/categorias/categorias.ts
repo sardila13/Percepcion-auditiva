@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
+  currentSound = new Audio;
+
 	images: Array<String> = [];
 
 	hide: Array<boolean> = [];
@@ -93,7 +95,7 @@ export class CategoriasPage {
   }
 
   changeDifficulty(){
-
+    this.currentSound.pause();
   	console.log(this.winnerSound);
 
   	this.hideImagenes();
@@ -120,15 +122,18 @@ export class CategoriasPage {
   playSound(){
     var sound = new Audio("assets/sounds/" + this.winnerSound);
     sound.play();
+    return sound;
   }
 
   playSoundParam(soundPath: String){
     var sound = new Audio("assets/sounds/" + soundPath);
     sound.play();
+    return sound;
   }
 
   selectImage(id:number){	
   	if(this.winner === id){
+      this.currentSound.pause();
   		console.log("Ganaste");
       window.alert("Ganaste");
       this.selectWinner(this.rango, this.setImages);
@@ -148,18 +153,18 @@ export class CategoriasPage {
   selectWinner(rango:number,functionSetImages){
   	var winnerPosition = this.selectWinnerPosition(rango);
     console.log("winner position " + winnerPosition);
-  	var winnerSound = functionSetImages(rango, winnerPosition, this.randomNumber, this.category, this.images, this.playSoundParam);
+  	var winnerSound = functionSetImages(rango, winnerPosition, this.randomNumber, this.category, this.images);
   	this.setSound(winnerSound);
   }
 
   setSound(sound: String){
   	this.winnerSound = sound;
-  	this.playSoundParam(sound);
+  	this.currentSound = this.playSoundParam(sound);
   }
 
   
 
-  setImages(rango: number, winnerPosition: number, functionRandom, category: String, images:Array<String>, functionPlaySoundParam){
+  setImages(rango: number, winnerPosition: number, functionRandom, category: String, images:Array<String>){
   	var winnerSound;
     images.splice(0,images.length);
     console.log(images);
