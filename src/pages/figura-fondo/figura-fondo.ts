@@ -113,7 +113,6 @@ export class FiguraFondoPage {
   }
 
   playSoundParam(soundPath: Array<String>){
-    console.log("Entro");
     for(var a = 0; a < this.winnerSounds.length; a++){
   		var sound = new Audio("assets/sounds/" + soundPath[a]);
       this.currentSounds.push(sound);

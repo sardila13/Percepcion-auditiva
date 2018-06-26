@@ -23,11 +23,13 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 
 	buttons: Array<HTMLElement>;
 
+  encontrados: number;
+
 	dificultad: String = "facil";
 
 	winner: Array<number>;
 
-	rango: number = 3;
+	rango: number = 1;
 
 	index : number;
 
@@ -37,11 +39,11 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   	category: String = this.categories[0];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  	for(var j = 0; j < 4; j++){
+  	for(var j = 0 ; j < 4; j++){
     	this.hide[j] = true;
     }
 
-    var rango = 3;
+    var rango = 1;
 
     this.setImagesAndPositions(rango);
   }
@@ -86,18 +88,24 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   }
 
   selectImage(id:number){
+    console.log(this.encontrados);
+    console.log(this.winner.length);
+    console.log(this.winner);
   	var indexOfPosition = this.winner.indexOf(id);
   	if(indexOfPosition > -1){
-      var path = this.images[id].split(".jpg")[0] + ".mp3";
-      
-      this.sounds.splice(this.sounds.indexOf(path),1);
-  		this.winner.splice(indexOfPosition,1);
 
-  		if(this.winner.length === 0)console.log("Ganaste");
-      else console.log("Sacaste uno");
+  		if(this.encontrados === this.winner.length -1){
+        console.log("Ganaste");
+        window.alert("Ganaste");
+      }
+      else {
+        console.log("Sacaste uno");
+        this.encontrados++;
+      }
   	}
   	else{
   		console.log("Fallaste");
+      this.encontrados = 0;
   	}
   }
 
@@ -120,6 +128,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   		rango = 5;
   		clase = "imagenesDif";
   	}
+    this.rango = rango;
   	this.setClassImages(clase);
     this.setImagesAndPositions(rango);
   }
@@ -130,7 +139,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 
 
   playSound(){
-    this.index -1;
+    this.index = -1;
     this.playArraySounds();
   }
 
@@ -138,18 +147,20 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     this.index++;;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + this.sounds[this.index]);
-    audio.addEventListener('ended', ()=> this.playArraySounds);
     audio.play();
+    audio.addEventListener('ended', ()=> this.playArraySounds());
   }
 
   setImagesAndPositions(rango: number){
   	var winnerPositions =  this.setWinnersPositions(rango, this.randomNumber);
     var sounds = this.setImages(winnerPositions, this.randomNumber, rango, this.images, this.category, this.sounds);
+    console.log(sounds)
+    this.encontrados = 0;
     this.playSoundParam(sounds);
   }
 
   playSoundParam(sounds: Array<String>){
-    this.index -1;
+    this.index = -1;
     this.playArraySoundsParam(sounds);
   }
 
@@ -157,13 +168,13 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     this.index++;;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
-    audio.addEventListener('ended', ()=> this.playArraySounds);
     audio.play();
+    audio.addEventListener('ended', ()=> this.playArraySounds());
   }
 
   setWinnersPositions(rango: number, functionRandomNumber){
     var winnerPositions: Array<number> = [];
-  	for(var i = 0; i <= rango-2; i++){
+  	for(var i = 0; i <= rango; i++){
   		var winnerPosition = functionRandomNumber(rango);
       if(winnerPositions.indexOf(winnerPosition)> -1 ) i--;
   		else winnerPositions.push(winnerPosition);
