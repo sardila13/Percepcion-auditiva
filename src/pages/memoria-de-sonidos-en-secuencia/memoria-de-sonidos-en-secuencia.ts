@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MemoriaDeSonidosEnSecuenciaPage {
 
+  currentSounds : Array<HTMLAudioElement> = [];
+
   images: Array<String> = [];
 
 	sounds:Array<string> = [];
@@ -23,7 +25,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 
 	buttons: Array<HTMLElement>;
 
-  encontrados: number;
+  encontrados: number = 0;
 
 	dificultad: String = "facil";
 
@@ -32,6 +34,8 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 	rango: number = 1;
 
 	index : number;
+
+  soundsPositions: Array<number> = [0,1];
 
 	categories: Array<String> = ["animalesDeLaGranja","animalesDeLaSelva",
   	"mediosDeTransporte","instrumentosMusicales","cosasDeLaCasa","sonidosDelCuerpo"];
@@ -87,29 +91,38 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   	}
   }
 
-  selectImage(id:number){
-    console.log(this.encontrados);
-    console.log(this.winner.length);
-    console.log(this.winner);
-  	var indexOfPosition = this.winner.indexOf(id);
-  	if(indexOfPosition > -1){
+  pauseSounds(){
+    for(var xy = 0; xy < this.currentSounds.length; xy++){
+      if(this.currentSounds[xy]!== undefined) this.currentSounds[xy].pause();
+    }
+  }
 
-  		if(this.encontrados === this.winner.length -1){
+  selectImage(id:number){
+    var sound = this.images[id].split(".jpg")[0] + ".mp3";
+    if(this.sounds[this.encontrados] === sound){
+      if(this.encontrados == this.sounds.length-1)
+      {
         console.log("Ganaste");
         window.alert("Ganaste");
+        this.changeDifficulty();
       }
-      else {
-        console.log("Sacaste uno");
-        this.encontrados++;
+      else{
+        console.log("Encontraste uno");
+        this.encontrados ++;
       }
-  	}
-  	else{
-  		console.log("Fallaste");
+      
+    }
+    else{
       this.encontrados = 0;
-  	}
+      window.alert("Intentalo de nuevo");
+      console.log("Intenta de nuevo")
+    } 
+  	
   }
 
   changeDifficulty(){
+
+    this.pauseSounds();
 
   	this.hideImagenes();
     this.sounds = [];
@@ -117,17 +130,21 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   	var clase = "";
   	var rango = 1;
   	if(this.dificultad ==="facil"){
+      this.soundsPositions = [0,1];
   		rango = 1;
   		clase = "imagenesFa";
   	}
   	else if(this.dificultad ==="intermedio"){
+      this.soundsPositions = [0,1,2,3];
   		rango = 3;
   		clase = "imagenesIntermedio";
   	}
   	else if(this.dificultad ==="dificil"){
+      this.soundsPositions = [0,1,2,3,4,5];
   		rango = 5;
   		clase = "imagenesDif";
   	}
+    this.encontrados = 0;
     this.rango = rango;
   	this.setClassImages(clase);
     this.setImagesAndPositions(rango);
@@ -147,14 +164,14 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     this.index++;;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + this.sounds[this.index]);
+    this.currentSounds[this.index] = audio;
     audio.play();
     audio.addEventListener('ended', ()=> this.playArraySounds());
   }
 
   setImagesAndPositions(rango: number){
   	var winnerPositions =  this.setWinnersPositions(rango, this.randomNumber);
-    var sounds = this.setImages(winnerPositions, this.randomNumber, rango, this.images, this.category, this.sounds);
-    console.log(sounds)
+    var sounds = this.setImages(winnerPositions, this.randomNumber, rango, this.images, this.category, this.sounds, this.soundsPositions);
     this.encontrados = 0;
     this.playSoundParam(sounds);
   }
@@ -168,6 +185,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     this.index++;;
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
+    this.currentSounds[this.index] = audio;
     audio.play();
     audio.addEventListener('ended', ()=> this.playArraySounds());
   }
@@ -183,22 +201,29 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     return winnerPositions;
   }
 
-  setImages(winnerPositions: Array<number>, functionRandomNumber, rango: number, images: Array<String>, category: String, winnerSounds: Array<String>){
-    var positionSound = 0;
-  	for(var x = 0; x <= rango; x++){
+  setImages(winnerPositions: Array<number>, functionRandomNumber, rango: number, images: Array<String>, category: String, winnerSounds: Array<String>,soundsPositions:Array<number>){
+    images.splice(0, images.length);
+    winnerSounds.splice(0, winnerSounds.length);
+    for(var x = 0; x <= rango; x++){
       var path = category + "/" + functionRandomNumber(7);
       var image = path + ".jpg";
       if(images.indexOf(image) > -1) x--;
       else{
-        if(winnerPositions.indexOf(x)>-1){
-          winnerSounds[positionSound++] = path + ".mp3";
-        }
         if(x >= images.length) images.push(path + ".jpg");
-          else images[x] = path + ".jpg";
+        else images[x] = path + ".jpg";
 
       }
     }
+    for(var dx = 0; dx < winnerPositions.length; dx++){
+
+      var soundPosition: number = 0;
+      if(soundsPositions.length > 1) soundPosition = functionRandomNumber(soundsPositions.length-1);
+      var actualPosition = soundsPositions[soundPosition];
+      winnerSounds[actualPosition] = images[winnerPositions[dx]].split(".jpg")[0] + ".mp3";
+      soundsPositions.splice(soundsPositions.indexOf(actualPosition),1);
+    }
     return winnerSounds;
+
   }
 
 }
