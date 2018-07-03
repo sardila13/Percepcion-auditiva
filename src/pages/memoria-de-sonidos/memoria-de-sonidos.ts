@@ -16,6 +16,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 export class MemoriaDeSonidosPage {
 
+  canWin: boolean = false;
+
   currentSounds : Array<HTMLAudioElement> = [];
 
 	images: Array<String> = [];
@@ -27,6 +29,8 @@ export class MemoriaDeSonidosPage {
 	buttons: Array<HTMLElement>;
 
 	dificultad: String = "facil";
+
+  stopSounds: boolean = false;
 
 	winner: Array<number>;
 
@@ -53,6 +57,10 @@ export class MemoriaDeSonidosPage {
     this.setImagesAndPositions(rango);
   }
 
+  ionViewWillLeave(){
+    this.pauseSounds();
+  }
+
   ionViewDidLoad() {
     this.buttons = [];
   	for( var a = 0; a < 8; a++) {
@@ -61,9 +69,6 @@ export class MemoriaDeSonidosPage {
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
-
-  	this.playSound();
-
   }
 
   setClassImages(clase: string){
@@ -93,29 +98,33 @@ export class MemoriaDeSonidosPage {
   }
 
   selectImage(id:number){
-  	var indexOfPosition = this.winner.indexOf(id);
-    console.log(indexOfPosition);
-  	if(indexOfPosition > -1){      
-  		this.winner.splice(indexOfPosition,1);
+    if(this.canWin){
+    	var indexOfPosition = this.winner.indexOf(id);
+      console.log(indexOfPosition);
+    	if(indexOfPosition > -1){      
+    		this.winner.splice(indexOfPosition,1);
 
-  		if(this.winner.length === 0){
-        this.pauseSounds();
-        console.log("Ganaste");
-        window.alert("Ganaste");
-        this.changeDifficulty();
-      }
-      else {
-        console.log("Sacaste uno");
-        window.alert("Encontraste uno");
-      }
-  	}
-  	else{
-  		console.log("Fallaste");
-      window.alert("intentalo de nuevo");
-  	}
+    		if(this.winner.length === 0){
+          this.pauseSounds();
+          console.log("Ganaste");
+          window.alert("Ganaste");
+          this.changeDifficulty();
+        }
+        else {
+          console.log("Sacaste uno");
+          window.alert("Encontraste uno");
+        }
+    	}
+    	else{
+    		console.log("Fallaste");
+        window.alert("intentalo de nuevo");
+    	}
+    }
   }
 
   changeDifficulty(){
+
+    this.canWin = false;
 
     this.pauseSounds();
 
@@ -150,19 +159,26 @@ export class MemoriaDeSonidosPage {
 
 
   playSound(){
+    this.pauseSounds();
     this.index = -1;
     this.playArraySounds();
   }
 
   pauseSounds(){
+    this.stopSounds = true;
     for(var xy = 0; xy < this.currentSounds.length; xy++){
-      if(this.currentSounds[xy]!== undefined) this.currentSounds[xy].pause();
+      this.currentSounds[xy].currentTime = 0;
+      this.currentSounds[xy].pause();
+      
     }
   }
 
   playArraySounds(){
     this.index++;
-    if(this.index === this.sounds.length) return;
+    if(this.index === this.sounds.length) {
+      this.canWin = true;
+      return;
+    }
     var audio = new Audio("assets/sounds/" + this.sounds[this.index]);
     this.currentSounds[this.index] = audio;
     audio.addEventListener('ended', ()=> this.playArraySounds());
@@ -170,23 +186,26 @@ export class MemoriaDeSonidosPage {
   }
 
   setImagesAndPositions(rango: number){
+    this.canWin = false;
   	var winnerPositions =  this.setWinnersPositions(rango, this.randomNumber);
     var sounds = this.setImages(winnerPositions, this.randomNumber, rango, this.images, this.category, this.sounds, this.soundsPositions);
     this.playSoundParam(sounds);
   }
 
   playSoundParam(sounds: Array<String>){
+    this.stopSounds = false;
     this.index = -1;
     this.playArraySoundsParam(sounds);
   }
 
   playArraySoundsParam(arraySounds: Array<String>){
-    this.index++;
-    if(this.index === this.sounds.length) return;
-    var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
-    this.currentSounds[this.index] = audio;
-    audio.addEventListener('ended', ()=> this.playArraySoundsParam(arraySounds));
-    audio.play();
+    if(!this.stopSounds){
+      this.index++;
+      if(this.index === this.sounds.length) return;
+      var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
+      this.currentSounds[this.index] = audio;
+      this.playArraySoundsParam(arraySounds);
+    }
   }
 
   setWinnersPositions(rango: number, functionRandomNumber){

@@ -15,7 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class IdentificacionDeContextosOSituacionesPage {
 
-  currentSound = new Audio;
+  canWin : boolean = false;
+
+  currentSound: HTMLAudioElement = new Audio();
 
 	images: Array<String> = [];
 
@@ -42,10 +44,9 @@ export class IdentificacionDeContextosOSituacionesPage {
     this.selectWinnerCategory(3, this.setImages);
   }
 
-  ionViewDidLeave(){
-    console.log("Entro");
-    console.log(this.currentSound);
+  ionViewWillLeave(){
     this.currentSound.pause();
+    this.currentSound.currentTime = 0;
   }
 
   ionViewDidLoad() {
@@ -57,21 +58,22 @@ export class IdentificacionDeContextosOSituacionesPage {
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
-    this.playSound();
-    console.log("Winner " +this.winner);
+        console.log("Winner " +this.winner);
   }
 
   selectImage(id:number){	
-  	if(this.winner === id){
-      this.currentSound . pause();
-  		console.log("Ganaste");
-      window.alert("Ganaste");
-      this.selectWinnerCategory(this.rango, this.setImages);
-  	}
-  	else{
-  		console.log("Perdiste");
-      window.alert("intentalo de nuevo");
-  	}
+    if(this.canWin){
+    	if(this.winner === id){
+        this.currentSound . pause();
+    		console.log("Ganaste");
+        window.alert("Ganaste");
+        this.selectWinnerCategory(this.rango, this.setImages);
+    	}
+    	else{
+    		console.log("Perdiste");
+        window.alert("intentalo de nuevo");
+    	}
+    }
   }
 
   //Extra methods non related to the specific class
@@ -87,18 +89,19 @@ export class IdentificacionDeContextosOSituacionesPage {
   }
 
   playSound(){
-    var sound = new Audio("assets/sounds/" + this.winnerSound);
-    sound.play();
-    return sound;
+    this.canWin = true;
+    this.currentSound.pause();
+    this.currentSound.play();
   }
 
   playSoundParam(soundPath:String){
     var sound = new Audio("assets/sounds/" + soundPath);
-    sound.play();
     return sound;
   }
 
   changeDifficulty() {
+
+    this.canWin = false;
 
     this.currentSound.pause();
 
@@ -149,6 +152,7 @@ export class IdentificacionDeContextosOSituacionesPage {
   }
 
   selectWinnerCategory(rango : number, functionSetImages){
+    this.canWin = false;
   	var winnerPosition = this.selectWinnerPosition(rango);
     //console.log("Winner category " +  " " + this.categories[winnerCategory]);
     //console.log("Winner position " + winnerPosition);

@@ -15,7 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
-  currentSound = new Audio;
+  canWin: boolean = false;
+
+  currentSound: HTMLAudioElement = new Audio();
 
 	images: Array<String> = [];
 
@@ -50,6 +52,11 @@ export class CategoriasPage {
   	
   }
 
+  ionViewWillLeave(){
+    console.log(this.currentSound);
+    this.currentSound.pause();
+  }
+
   ionViewDidLoad() {
     this.buttons;
   	for( var a = 0; a < 8; a++) {
@@ -58,12 +65,10 @@ export class CategoriasPage {
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
-
-  	this.playSound();
-
   }
 
   changeCategory(){
+    this.canWin = false;
   	this.selectWinner(this.rango, this.setImages);
   }
 
@@ -95,8 +100,9 @@ export class CategoriasPage {
   }
 
   changeDifficulty(){
+
+    this.canWin = false;
     this.currentSound.pause();
-  	console.log(this.winnerSound);
 
   	this.hideImagenes();
 
@@ -120,28 +126,29 @@ export class CategoriasPage {
   }
 
   playSound(){
-    var sound = new Audio("assets/sounds/" + this.winnerSound);
-    sound.play();
-    return sound;
+    this.canWin = true;
+    this.currentSound.pause();
+    this.currentSound.play();
   }
 
   playSoundParam(soundPath: String){
     var sound = new Audio("assets/sounds/" + soundPath);
-    sound.play();
     return sound;
   }
 
   selectImage(id:number){	
-  	if(this.winner === id){
-      this.currentSound.pause();
-  		console.log("Ganaste");
-      window.alert("Ganaste");
-      this.selectWinner(this.rango, this.setImages);
-  	}
-  	else{
-  		console.log("Perdiste");
-      window.alert("intentalo de nuevo");
-  	}
+    if(this.canWin){
+    	if(this.winner === id){
+        this.currentSound.pause();
+    		console.log("Ganaste");
+        window.alert("Ganaste");
+        this.selectWinner(this.rango, this.setImages);
+    	}
+    	else{
+    		console.log("Perdiste");
+        window.alert("intentalo de nuevo");
+    	}
+    }
   }
 
   selectWinnerPosition(rango: number){
@@ -151,8 +158,8 @@ export class CategoriasPage {
   }
 
   selectWinner(rango:number,functionSetImages){
+    this.canWin = false;
   	var winnerPosition = this.selectWinnerPosition(rango);
-    console.log("winner position " + winnerPosition);
   	var winnerSound = functionSetImages(rango, winnerPosition, this.randomNumber, this.category, this.images);
   	this.setSound(winnerSound);
   }
@@ -167,10 +174,8 @@ export class CategoriasPage {
   setImages(rango: number, winnerPosition: number, functionRandom, category: String, images:Array<String>){
   	var winnerSound;
     images.splice(0,images.length);
-    console.log(images);
 
   	for(var i = 0; i <= rango; i++){
-      console.log(i);
   		var path = category + "/" + functionRandom(7);
   		var image = path + ".jpg";
   		if(images.indexOf(image) > -1) i--;
@@ -180,7 +185,6 @@ export class CategoriasPage {
 	  		else images[i] = path + ".jpg";
   		}
   	}
-    console.log(images);
   	return winnerSound;
   }
 

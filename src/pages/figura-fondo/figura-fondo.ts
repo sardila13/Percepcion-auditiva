@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class FiguraFondoPage {
 
+  canWin : boolean = false;
+
   currentSounds : Array<HTMLAudioElement> = [];
 
 	images: Array<String> = [];
@@ -48,14 +50,20 @@ export class FiguraFondoPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FiguraFondoPage');
     this.buttons = [];
-  	for( var a = 0; a < 6; a++) {
-  		var btnActual = "btn" + a;
+  	for( var ax = 0; ax < 6; ax++) {
+  		var btnActual = "btn" + ax;
   		var elbtn = document.getElementById(btnActual);
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
 
-  	this.playSound();
+  }
+
+  ionViewWillLeave(){
+    for(var da = 0; da < this.currentSounds.length; da++){
+      this.currentSounds[da].pause();
+      this.currentSounds[da].currentTime = 0;
+    }
   }
 
   setClassImages(clase: string){
@@ -83,6 +91,8 @@ export class FiguraFondoPage {
 
   changeDifficulty(){
 
+    this.canWin = false;
+
     for(var xy = 0; xy < this.currentSounds.length; xy++){
       this.currentSounds[xy].pause();
     }
@@ -105,40 +115,44 @@ export class FiguraFondoPage {
   }
 
   playSound(){
+    this.canWin = true;
+    for(var a = 0; a < this.currentSounds.length; a++){
+      this.currentSounds[a].pause();
+    }
   	for(var a = 0; a < this.winnerSounds.length; a++){
-  		var sound = new Audio("assets/sounds/" + this.winnerSounds[a]);
-      this.currentSounds.push(sound);
-  		sound.play();
+  		this.currentSounds[a].play();
   	}
   }
 
   playSoundParam(soundPath: Array<String>){
+    this.currentSounds.splice(0, this.currentSounds.length);
     for(var a = 0; a < this.winnerSounds.length; a++){
   		var sound = new Audio("assets/sounds/" + soundPath[a]);
       this.currentSounds.push(sound);
-  		sound.play();
   	}
   }
 
   selectImage(id:number){	
-  	if(this.winner.indexOf (id)>-1){
-      if(this.winner.length == 1){
-        for(var xy = 0; xy < this.currentSounds.length; xy++){
-          this.currentSounds[xy].pause();
+    if(this.canWin){
+    	if(this.winner.indexOf (id)>-1){
+        if(this.winner.length == 1){
+          for(var xy = 0; xy < this.currentSounds.length; xy++){
+            this.currentSounds[xy].pause();
+          }
+          window.alert("Ganaste");
+          this.selectWinner(this.rango, this.setImages);
         }
-        window.alert("Ganaste");
-        this.selectWinner(this.rango, this.setImages);
-      }
-      else{
-    		console.log("encontraste uno");
-        window.alert("Enocntraste uno");
-    		this.winner.splice(this.winner.indexOf (id),1);
-      }
-  	}
-  	else{
-  		console.log("Fallaste");
-      window.alert("intentalo de nuevo");
-  	}
+        else{
+      		console.log("encontraste uno");
+          window.alert("Enocntraste uno");
+      		this.winner.splice(this.winner.indexOf (id),1);
+        }
+    	}
+    	else{
+    		console.log("Fallaste");
+        window.alert("intentalo de nuevo");
+    	}
+    }
   }
 
   selectWinnerPosition(rango: number){
@@ -153,20 +167,21 @@ export class FiguraFondoPage {
   }
 
   selectWinner(rango:number,functionSetImages){
+    this.canWin = false;
   	var winners = this.selectWinnerPosition(rango);
   	var winnerSounds = functionSetImages(winners, this.randomNumber, rango, this.images, this.categories);
   	this.setSound(winnerSounds);
   }
 
   setSound(sound: Array<String>){
-  	console.log(sound);
-  	this.winnerSounds = sound;
-  	this.playSoundParam(sound);
+    for(var dy = 0; dy < sound.length; dy++){
+      this.winnerSounds[dy] = sound[dy];
+    }
+  	this.playSoundParam(this.winnerSounds);
   }
 
   setImages(winnersPositions:Array<number>, functionRandomNumber, rango:number, images:Array<String>, categories:Array<String>){
     images.splice(0, images.length);
-    console.log(rango);
   	var sounds: Array<String> = [];
   	for(var j = 0; j < rango; j++){
   		var categoria = functionRandomNumber(5);

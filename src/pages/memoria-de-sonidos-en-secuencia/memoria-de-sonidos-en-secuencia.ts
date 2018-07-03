@@ -15,6 +15,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MemoriaDeSonidosEnSecuenciaPage {
 
+  canWin: boolean = false;
+
   currentSounds : Array<HTMLAudioElement> = [];
 
   images: Array<String> = [];
@@ -52,6 +54,10 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     this.setImagesAndPositions(rango);
   }
 
+  ionViewWillLeave(){
+    this.pauseSounds();
+  }
+
   ionViewDidLoad() {
     this.buttons = [];
   	for( var a = 0; a < 6; a++) {
@@ -60,9 +66,6 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
-
-  	this.playSound();
-
   }
 
   setClassImages(clase: string){
@@ -93,34 +96,40 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 
   pauseSounds(){
     for(var xy = 0; xy < this.currentSounds.length; xy++){
-      if(this.currentSounds[xy]!== undefined) this.currentSounds[xy].pause();
+          this.currentSounds[xy].pause();
+          this.currentSounds[xy].currentTime = 0;
+      
     }
   }
 
   selectImage(id:number){
-    var sound = this.images[id].split(".jpg")[0] + ".mp3";
-    if(this.sounds[this.encontrados] === sound){
-      if(this.encontrados == this.sounds.length-1)
-      {
-        console.log("Ganaste");
-        window.alert("Ganaste");
-        this.changeDifficulty();
+    if(this.canWin){
+      var sound = this.images[id].split(".jpg")[0] + ".mp3";
+      if(this.sounds[this.encontrados] === sound){
+        if(this.encontrados == this.sounds.length-1)
+        {
+          console.log("Ganaste");
+          window.alert("Ganaste");
+          this.changeDifficulty();
+        }
+        else{
+          console.log("Encontraste uno");
+          this.encontrados ++;
+        }
+        
       }
       else{
-        console.log("Encontraste uno");
-        this.encontrados ++;
-      }
-      
+        this.encontrados = 0;
+        window.alert("Intentalo de nuevo");
+        console.log("Intenta de nuevo")
+      } 
     }
-    else{
-      this.encontrados = 0;
-      window.alert("Intentalo de nuevo");
-      console.log("Intenta de nuevo")
-    } 
   	
   }
 
   changeDifficulty(){
+
+    this.canWin = false;
 
     this.pauseSounds();
 
@@ -156,13 +165,17 @@ export class MemoriaDeSonidosEnSecuenciaPage {
 
 
   playSound(){
+    this.pauseSounds();
     this.index = -1;
     this.playArraySounds();
   }
 
   playArraySounds(){
     this.index++;;
-    if(this.index === this.sounds.length) return;
+    if(this.index === this.sounds.length){
+      this.canWin = true;
+      return;
+    };
     var audio = new Audio("assets/sounds/" + this.sounds[this.index]);
     this.currentSounds[this.index] = audio;
     audio.play();
@@ -170,6 +183,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
   }
 
   setImagesAndPositions(rango: number){
+    this.canWin = false;
   	var winnerPositions =  this.setWinnersPositions(rango, this.randomNumber);
     var sounds = this.setImages(winnerPositions, this.randomNumber, rango, this.images, this.category, this.sounds, this.soundsPositions);
     this.encontrados = 0;
@@ -186,8 +200,7 @@ export class MemoriaDeSonidosEnSecuenciaPage {
     if(this.index === this.sounds.length) return;
     var audio = new Audio("assets/sounds/" + arraySounds[this.index]);
     this.currentSounds[this.index] = audio;
-    audio.play();
-    audio.addEventListener('ended', ()=> this.playArraySounds());
+    this.playArraySoundsParam(arraySounds);
   }
 
   setWinnersPositions(rango: number, functionRandomNumber){

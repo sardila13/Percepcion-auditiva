@@ -18,6 +18,8 @@ export class IdentificacionDeLaCategoriaPage {
 
 //SetUp methods en variables
 
+  canWin : boolean = false;
+
   currentAudio = new Audio();
 
   dificultad : String = "facil";
@@ -63,21 +65,30 @@ export class IdentificacionDeLaCategoriaPage {
   		elbtn.classList.add("imagenesFa");
   		this.buttons.push(elbtn);
   	}
-    this.playSound();
     console.log("Winner " +this.winner);
   }
 
+  ionViewWillLeave(){
+    console.log(this.currentAudio);
+    this.currentAudio.pause();
+    this.currentAudio.currentTime = 0;
+    console.log(this.currentAudio.currentTime);
+  }
+
   selectImage(id:number){	
-  	if(this.winner === id){
-      this.currentAudio.pause();
-  		console.log("Ganaste");
-      window.alert("Ganaste");
-      this.selectWinnerCategory(this.rango, this.setImages);
-  	}
-  	else{
-  		console.log("Perdiste");
-      window.alert("intentalo de nuevo");
-  	}
+    if(this.canWin){
+    	if(this.winner === id){
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0;
+    		console.log("Ganaste");
+        window.alert("Ganaste");
+        this.selectWinnerCategory(this.rango, this.setImages);
+    	}
+    	else{
+    		console.log("Perdiste");
+        window.alert("intentalo de nuevo");
+    	}
+    }
   }
 
   //Extra methods non related to the specific class
@@ -104,18 +115,20 @@ export class IdentificacionDeLaCategoriaPage {
   }*/
 
   playSound(){
-    var sound = new Audio("assets/sounds/" + this.winnerSound);
-    this.currentAudio = sound;
-    sound.play();
+    this.canWin = true;
+    this.currentAudio.pause();
+    this.currentAudio.play();
+
   }
 
   playSoundParam(soundPath:String){
     var sound = new Audio("assets/sounds/" + soundPath);
     this.currentAudio = sound;
-    sound.play();
   }
 
   changeDifficulty() {
+
+    this.canWin = false;
 
     this.currentAudio.pause();
 
@@ -168,6 +181,7 @@ export class IdentificacionDeLaCategoriaPage {
   }
 
   selectWinnerCategory(rango : number, functionSetImages){
+    this.canWin = false;
   	var winnerCategory = this.randomNumber(5);
   	var winnerPosition = this.selectWinnerPosition(rango);
     //console.log("Winner category " +  " " + this.categories[winnerCategory]);
