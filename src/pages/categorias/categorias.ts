@@ -109,15 +109,15 @@ export class CategoriasPage {
   	var clase = "";
   	var rango = 1;
   	if(this.dificultad ==="facil"){
-  		rango = 2;
+  		rango = 1;
   		clase = "imagenesFa";
   	}
   	else if(this.dificultad ==="intermedio"){
-  		rango = 4;
+  		rango = 3;
   		clase = "imagenesIntermedio";
   	}
   	else if(this.dificultad ==="dificil"){
-  		rango = 7;
+  		rango = 5;
   		clase = "imagenesDif";
   	}
   	this.rango = rango;

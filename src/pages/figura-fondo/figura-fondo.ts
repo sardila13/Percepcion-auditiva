@@ -102,11 +102,11 @@ export class FiguraFondoPage {
   	var clase = "";
   	var rango = 4;
   	if(this.dificultad ==="intermedio"){
-  		rango = 4;
+  		rango = 3;
   		clase = "imagenesIntermedio";
   	}
   	else if(this.dificultad ==="dificil"){
-  		rango = 6;
+  		rango = 5;
   		clase = "imagenesDif";
   	}
   	this.rango = rango
